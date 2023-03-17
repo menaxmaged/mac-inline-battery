@@ -77,9 +77,9 @@ Item {
 
     property var inhibitions: []
 
-    readonly property var kcms: ["powerdevilprofilesconfig",
-                                 "powerdevilactivitiesconfig",
-                                 "powerdevilglobalconfig"]
+    readonly property var kcms: ["powerdevilprofilesconfig.desktop",
+                                 "powerdevilactivitiesconfig.desktop",
+                                 "powerdevilglobalconfig.desktop"]
 
     readonly property bool kcmsAuthorized: KCMShell.authorize(batterywidget.kcms).length > 0
 
@@ -224,7 +224,7 @@ Item {
 				        anchors.right: batteryIconContainer.left
 				        anchors.rightMargin: config.padding
 				        text: {
-					          if (currentBatteryPercent >= 0) {
+					          if (currentBatteryPercent > 0) {
 						            return '' + currentBatteryPercent + '%'
 					          } else {
 						            return '100%';
@@ -264,7 +264,7 @@ Item {
 				        anchors.left: batteryIconContainer.right
 				        anchors.leftMargin: config.padding
 				        text: {
-					          if (currentBatteryPercent >= 0) {
+					          if (currentBatteryPercent > 0) {
 						            return '' + currentBatteryPercent + '%'
 					          } else {
 						            return '100%';

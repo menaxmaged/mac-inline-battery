@@ -13,5 +13,5 @@ kpackagetool5 -t Plasma/Applet --upgrade .
 
 ## Uninstall
 ```
-kpackagetool5 -t Plasma/Applet --remove org.kde.plasma.inlineBattery
+kpackagetool5 -t Plasma/Applet --remove org.kde.plasma.venturabattery
 ```
