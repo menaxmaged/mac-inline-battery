@@ -7,7 +7,7 @@ Item {
 	property color normalColor: theme.textColor
 	property color chargingColor: "#1e1"
 	property color lowBatteryColor: "#e33"
-	property int lowBatteryPercent: 20
+	property int lowBatteryPercent: 99
 
 	Rectangle {
 		// Outline

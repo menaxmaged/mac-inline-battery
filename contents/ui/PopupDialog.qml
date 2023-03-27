@@ -63,13 +63,7 @@ FocusScope {
             visible: false
         }
 
-        PowerManagementItem {
-            id: pmSwitch
-            width: parent.width
-            onEnabledChanged: powermanagementChanged(enabled)
-            KeyNavigation.tab: batteryList
-            KeyNavigation.backtab: keyboardBrightnessSlider
-        }
+       
 
         BrightnessItem {
             id: brightnessSlider
@@ -108,6 +102,17 @@ FocusScope {
                 onKeyboardBrightnessChanged: keyboardBrightnessSlider.value = batterywidget.keyboardBrightness
             }
         }
+        PowerProfileItem {
+               Layout.fillWidth: true
+
+                activeProfile: dialog.activeProfile
+                inhibitionReason: dialog.inhibitionReason
+                visible: dialog.profiles.length > 0
+                degradationReason: dialog.degradationReason
+                profileHolds: dialog.profileHolds
+                onActivateProfileRequested: dialog.activateProfileRequested(profile)
+            }
+
     }
 
     PlasmaExtras.ScrollArea {

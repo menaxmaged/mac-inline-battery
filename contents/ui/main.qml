@@ -95,16 +95,6 @@ Item {
         service.startOperationCall(operation);
     }
 
-    onKeyboardBrightnessChanged: {
-        if (disableBrightnessUpdate) {
-            return;
-        }
-        var service = pmSource.serviceForSource("PowerDevil");
-        var operation = service.operationDescription("setKeyboardBrightness");
-        operation.brightness = keyboardBrightness;
-        operation.silent = plasmoid.expanded
-        service.startOperationCall(operation);
-    }
 
     function action_powerdevilkcm() {
         KCMShell.open(batterywidget.kcms);
