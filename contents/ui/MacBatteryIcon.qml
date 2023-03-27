@@ -21,14 +21,15 @@ Item {
 		Item {
 			anchors.fill: parent
 			anchors.margins: 2.6
-			
-			radius: 2.4
 
 			Rectangle {
-				// Charged % Fill
+// 				Charged % Fill
+                
+				radius: 2.4
 				anchors.left: parent.left
 				anchors.top: parent.top
 				anchors.bottom: parent.bottom
+
 				color: {
 					if (charging) {
 						return chargingColor
