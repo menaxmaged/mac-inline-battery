@@ -1,63 +1,69 @@
 /*
- *   Copyright 2012-2013 Daniel Nicoletti <dantti12@gmail.com>
- *   Copyright 2013, 2015 Kai Uwe Broulik <kde@privat.broulik.de>
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU Library General Public License as
- *   published by the Free Software Foundation; either version 2 or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details
- *
- *   You should have received a copy of the GNU Library General Public
- *   License along with this program; if not, write to the
- *   Free Software Foundation, Inc.,
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+    SPDX-FileCopyrightText: 2012-2013 Daniel Nicoletti <dantti12@gmail.com>
+    SPDX-FileCopyrightText: 2013, 2015 Kai Uwe Broulik <kde@privat.broulik.de>
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
+    SPDX-License-Identifier: LGPL-2.0-or-later
+*/
 
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as Components
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+
+import org.kde.plasma.components 3.0 as PlasmaComponents3
+import org.kde.plasma.core 2.1 as PlasmaCore
 
 RowLayout {
-    property alias icon: brightnessIcon.source
-    property alias label: brightnessLabel.text
-    property alias value: brightnessSlider.value
-    property alias maximumValue: brightnessSlider.maximumValue
+    id: root
 
-    spacing: units.gridUnit
+    property alias icon: image.source
+    property alias label: title.text
+    property alias slider: control
+    property alias value: control.value
+    property alias maximumValue: control.to
+    property alias stepSize: control.stepSize
+    property alias showPercentage: percent.visible
+
+    readonly property real percentage: Math.round(100 * value / maximumValue)
+
+    signal moved()
+
+    spacing: PlasmaCore.Units.gridUnit
 
     PlasmaCore.IconItem {
-        id: brightnessIcon
+        id: image
         Layout.alignment: Qt.AlignTop
-        Layout.preferredWidth: units.iconSizes.medium
-        Layout.preferredHeight: width
+        Layout.preferredWidth: PlasmaCore.Units.iconSizes.medium
+        Layout.preferredHeight: PlasmaCore.Units.iconSizes.medium
     }
 
-    Column {
-        id: brightnessColumn
+    ColumnLayout {
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignTop
         spacing: 0
 
-        Components.Label {
-            id: brightnessLabel
-            width: parent.width
-            height: paintedHeight
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: PlasmaCore.Units.smallSpacing
+
+            PlasmaComponents3.Label {
+                id: title
+                Layout.fillWidth: true
+            }
+
+            PlasmaComponents3.Label {
+                id: percent
+                Layout.alignment: Qt.AlignRight
+                text: i18nc("Placeholder is brightness percentage", "%1%", root.percentage)
+            }
         }
 
-        Components.Slider {
-            id: brightnessSlider
-            width: parent.width
+        PlasmaComponents3.Slider {
+            id: control
+            Layout.fillWidth: true
             // Don't allow the slider to turn off the screen
             // Please see https://git.reviewboard.kde.org/r/122505/ for more information
-            minimumValue: maximumValue > 100 ? 1 : 0
+            from: to > 100 ? 1 : 0
             stepSize: 1
+            onMoved: root.moved()
         }
     }
 }

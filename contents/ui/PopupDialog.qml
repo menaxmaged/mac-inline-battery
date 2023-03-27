@@ -18,11 +18,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import QtQuick 2.0
+import QtQuick 2.15
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as Components
+import org.kde.plasma.components 3.0 as Components
 import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.kquickcontrolsaddons 2.0
+import org.kde.kquickcontrolsaddons 2.1
+//import QtQuick.Layouts 1.15
 
 FocusScope {
     id: dialog
@@ -63,7 +64,13 @@ FocusScope {
             visible: false
         }
 
-       
+        PowerManagementItem {
+            id: pmSwitch
+            width: parent.width
+            onEnabledChanged: powermanagementChanged(enabled)
+            KeyNavigation.tab: batteryList
+            KeyNavigation.backtab: keyboardBrightnessSlider
+        }
 
         BrightnessItem {
             id: brightnessSlider
@@ -102,8 +109,9 @@ FocusScope {
                 onKeyboardBrightnessChanged: keyboardBrightnessSlider.value = batterywidget.keyboardBrightness
             }
         }
-        PowerProfileItem {
-               Layout.fillWidth: true
+           PowerProfileItem {
+//                Layout.fillWidth: true
+                 width: parent.width
 
                 activeProfile: dialog.activeProfile
                 inhibitionReason: dialog.inhibitionReason
@@ -112,7 +120,6 @@ FocusScope {
                 profileHolds: dialog.profileHolds
                 onActivateProfileRequested: dialog.activateProfileRequested(profile)
             }
-
     }
 
     PlasmaExtras.ScrollArea {
